@@ -5,6 +5,7 @@ import { ThreeEvent } from "@react-three/fiber";
 import { useAppDispatch } from "../../store/hooks";
 import { addWall } from "../../store/slices/construction";
 import { Vector3 } from "three";
+import { InitialStateType, WallType } from "../../store/slices/construction/initialState/type";
 
 
 interface IFloorProps {
@@ -12,14 +13,12 @@ interface IFloorProps {
 }
 
 export const Floor: React.FC<IFloorProps> = memo(({}) => {
-  const dispatch=useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const onClickHandler = (e: ThreeEvent<MouseEvent>) => {
-    e.stopPropagation()
-    console.log(e.point);
-    const position  =Object.values(e.point)
-
-    // dispatch(addWall({position,rotation:[0,0,0]}))
+    e.stopPropagation();
+    const [x,y,z] = Object.values(e.point) as WallType["position"];
+    dispatch(addWall({ position:[x,y,z] }));
 
   };
   return (

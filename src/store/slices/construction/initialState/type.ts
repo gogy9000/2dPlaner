@@ -1,7 +1,8 @@
 
 
 export type InitialStateType={
-  walls:WallType[]
+  wallsIdList:string[]
+  walls:Record<string, WallType>
 }
 
 export type WallType={
