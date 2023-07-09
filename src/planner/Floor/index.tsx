@@ -3,22 +3,17 @@ import { Grid } from "@react-three/drei";
 import { Plane } from "../meshes/Plane";
 import { ThreeEvent } from "@react-three/fiber";
 import { useAppDispatch } from "../../store/hooks";
-import { addWall } from "../../store/slices/construction";
-import { Vector3 } from "three";
-import { InitialStateType, WallType } from "../../store/slices/construction/initialState/type";
+import { constructionsActions } from "../../store/slices/construction";
+import { WallType } from "../../store/slices/construction/initialState/type";
 
 
-interface IFloorProps {
-
-}
-
-export const Floor: React.FC<IFloorProps> = memo(({}) => {
+export const Floor: React.FC = memo(() => {
   const dispatch = useAppDispatch();
 
-  const onClickHandler = (e: ThreeEvent<MouseEvent>) => {
+  const onClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    const [x,y,z] = Object.values(e.point) as WallType["position"];
-    dispatch(addWall({ position:[x,y,z] }));
+    const [x, y, z] = Object.values(e.point) as WallType["position"];
+    dispatch(constructionsActions.addWall({ position: [x, y, z] }));
 
   };
   return (
@@ -26,7 +21,7 @@ export const Floor: React.FC<IFloorProps> = memo(({}) => {
       <Grid args={[100, 100]} position={[0, 0, -0.49]} rotation={[Math.PI / 2, 0, 0]}/>
       <Plane
         meshProps={{
-          onClick: onClickHandler
+          onClick
         }}
         cannonProps={
           {

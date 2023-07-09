@@ -4,10 +4,9 @@ import {
   CameraControls,
 } from "@react-three/drei";
 import { Physics } from "@react-three/cannon";
-import { Block } from "./meshes/Block";
 import { Floor } from "./Floor";
 import { Constructions } from "./Constructions";
-
+import { Stats } from '@react-three/drei'
 
 interface IPlannerProps {
 
@@ -25,13 +24,9 @@ export const Planner: React.FC<IPlannerProps> = memo(({}) => {
       <Physics gravity={[0, 0, -40]}>
         <color attach={"background"} args={["gray"]}/>
         <Constructions/>
-        {/*<Wall geometryProps={{rotation:[0,0,-Math.PI/4]}}/>*/}
-        <Block geometryProps={{
-          position:[0, 0, 0]
-        }} />
         <Floor/>
       </Physics>
-
+      <Stats />
     </Canvas>
   );
 });
