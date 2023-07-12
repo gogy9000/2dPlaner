@@ -1,16 +1,29 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { initialState } from "./initialState";
 import { WallType } from "./initialState/type";
 import { v4 } from "uuid";
+
+export const startBuild = createAsyncThunk("CONSTRUCTION_SLICE/START_BUILD", ({ position }: Pick<WallType, "position">, { dispatch }) => {
+  const id = v4();
+  dispatch(constructionsActions.addWall({ position, id }));
+  dispatch(constructionsActions.setSelectedConstructionsId(id));
+});
 
 const constructionSlice = createSlice({
   name: "CONSTRUCTION_SLICE",
   initialState,
   reducers: {
-    addWall: (state, action: PayloadAction<Pick<WallType, "position">>) => {
-      const id = v4();
+    addWall: (state, action: PayloadAction<Pick<WallType, "position" | "id">>) => {
+      const id = action.payload.id;
       state.wallsIdList.push(id);
-      state.walls[id] = { id, isSelected: false, args: [1, 1, 1], rotation: [0, 0, Math.PI / 2], ...action.payload };
+      state.walls[id] = { isSelected: false, args: [1, 1, 1], rotation: [0, 0, 0], ...action.payload };
+    },
+    removeSelectedWall: (state) => {
+      const selectedId = state.selectedConstructionId;
+      if (!selectedId) return;
+      state.selectedConstructionId=null
+      state.wallsIdList=state.wallsIdList.filter((id) => id !== selectedId);
+      delete state.walls[selectedId];
     },
     rotateWall: (state, action: PayloadAction<Pick<WallType, "id" | "rotation">>) => {
       const foundId = state.wallsIdList.find((id) => id === action.payload.id);
@@ -26,13 +39,31 @@ const constructionSlice = createSlice({
         state.walls[foundId].position = action.payload.position;
       }
     },
-    setSelectedConstructionsId: (state, action: PayloadAction<string>) => {
+    setSelectedConstructionsId: (state, action: PayloadAction<string | null>) => {
+
       if (state.selectedConstructionId === action.payload) return;
-      if (state.selectedConstructionId) {
+
+
+      if (state.selectedConstructionId && !!action.payload) {
         state.walls[state.selectedConstructionId].isSelected = false;
+        state.selectedConstructionId = action.payload;
+        state.walls[action.payload].isSelected = true;
+        return;
       }
-      state.selectedConstructionId = action.payload;
-      state.walls[action.payload].isSelected = true;
+
+      if (!!action.payload) {
+        state.selectedConstructionId = action.payload;
+        state.walls[action.payload].isSelected = true;
+        return;
+      }
+
+
+      if (!action.payload && state.selectedConstructionId) {
+        state.walls[state.selectedConstructionId].isSelected = false;
+        state.selectedConstructionId = null;
+        return;
+      }
+
 
     },
     setWallArgs: (state, action: PayloadAction<Pick<WallType, "args">>) => {

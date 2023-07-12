@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useLayoutEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   CameraControls,
@@ -7,7 +7,9 @@ import { Physics } from "@react-three/cannon";
 import { Floor } from "./Floor";
 import { Constructions } from "./Constructions";
 import { Stats } from '@react-three/drei'
-
+import { Chair } from "../models/Chair";
+import { TableAndChairs } from "../models/TableAndChairs";
+import * as THREE from 'three'
 interface IPlannerProps {
 
 }
@@ -24,9 +26,12 @@ export const Planner: React.FC<IPlannerProps> = memo(({}) => {
       <Physics gravity={[0, 0, -40]}>
         <color attach={"background"} args={["gray"]}/>
         <Constructions/>
+        {/*<TableAndChairs/>*/}
         <Floor/>
       </Physics>
       <Stats />
+
     </Canvas>
   );
 });
+

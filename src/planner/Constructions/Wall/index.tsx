@@ -1,11 +1,12 @@
 import React, { memo } from "react";
-import { Block, onFinishDragArgsType } from "../../meshes/Block";
+import { Block } from "../../meshes/Block";
 import { useSelector } from "react-redux";
 import { selectWall } from "../../../store/slices/construction/selectors";
 import { ThreeEvent } from "@react-three/fiber";
 import { constructionsActions } from "../../../store/slices/construction";
 import { useAppDispatch } from "../../../store/hooks";
 import  * as THREE from 'three'
+import { onFinishDragArgsType } from "../../shared/hooks/useDragPhysicsObject";
 
 
 type IWallProps = {
