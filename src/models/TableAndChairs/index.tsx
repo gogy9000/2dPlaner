@@ -8,17 +8,16 @@ Title: Simple dining table
 */
 
 import * as THREE from "three";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useBox } from "@react-three/cannon";
-import { useDragPhysicsObject } from "../../planner/shared/hooks/useDragPhysicsObject";
+import { useDragPhysicsObject } from "../../planner/Canvas/shared/hooks/useDragPhysicsObject";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectFurnitureById } from "../../planner/Furniture/slice/selectors";
+import { selectFurnitureById } from "../../planner/Canvas/Furniture/slice/selectors";
 import { ThreeEvent } from "@react-three/fiber";
-import { constructionsActions } from "../../planner/Constructions/slice";
-import { furnitureActions } from "../../planner/Furniture/slice";
-import { is } from "@react-three/fiber/dist/declarations/src/core/utils";
+import { furnitureActions } from "../../planner/Canvas/Furniture/slice";
+import { selectMode } from "../../planner/Canvas/shared/sharedSlice/selectors";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -30,6 +29,7 @@ type GLTFResult = GLTF & {
 }
 
 export function TableAndChairs({ id }: { id: string }) {
+  const mode=useAppSelector(selectMode)
   const furniture = useAppSelector(selectFurnitureById(id));
   const position = furniture ? furniture.position : [0, 0, 0] as [x: number, y: number, z: number];
   const rotation = furniture ? furniture.rotation : [0, 0, 0] as [x: number, y: number, z: number];
@@ -75,7 +75,7 @@ export function TableAndChairs({ id }: { id: string }) {
     z: 1,
     onFinishDrag: ({ id, position }) => {
       dispatch(furnitureActions.setFurniturePosition({ id, position }));
-    }
+    },
   });
 
 

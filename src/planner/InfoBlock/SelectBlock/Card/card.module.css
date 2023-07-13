@@ -1,0 +1,24 @@
+.container{
+    background-color: white;
+    border-radius: 5px;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    width: 10rem;
+    box-shadow: 1px 5px 10px black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+.isActive{
+   box-shadow: none;
+    border: 1px darkgray solid;
+}
+.title{
+    font-size: large;
+    font-weight: bold;
+}
+img{
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+}

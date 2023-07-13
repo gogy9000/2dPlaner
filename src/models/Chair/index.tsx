@@ -12,7 +12,7 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useBox } from "@react-three/cannon";
-import { useDragPhysicsObject } from "../../planner/shared/hooks/useDragPhysicsObject";
+import { useDragPhysicsObject } from "../../planner/Canvas/shared/hooks/useDragPhysicsObject";
 
 type GLTFResult = GLTF & {
   nodes: {

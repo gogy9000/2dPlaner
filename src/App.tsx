@@ -4,12 +4,12 @@ import { Canvas, useThree, Vector3 } from "@react-three/fiber";
 import { Box } from "./mesh/Box";
 import { OrbitControls } from "@react-three/drei";
 import { Debug, Physics } from "@react-three/cannon";
-import { Plane } from "./planner/meshes/Plane";
+import { Plane } from "./planner/Canvas/meshes/Plane";
 import Car from "../src/models/car/Car";
 import { Orto } from "./Orto";
 import { Interactive } from "./Interactive";
 import { useDrag } from "react-use-gesture";
-import { Block } from "./planner/meshes/Block";
+import { Block } from "./planner/Canvas/meshes/Block";
 import { PhysicsBlock } from "./mesh/PhysicsBlock";
 import { Planner } from "./planner";
 

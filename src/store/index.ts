@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { constructionReducer } from "../planner/Constructions/slice";
-import { furnitureReducer } from "../planner/Furniture/slice";
-import { sharedReducer } from "../planner/shared/sharedSlice";
+import { constructionReducer } from "../planner/Canvas/Constructions/slice";
+import { furnitureReducer } from "../planner/Canvas/Furniture/slice";
+import { sharedReducer } from "../planner/Canvas/shared/sharedSlice";
 
 
 export const store = configureStore({
