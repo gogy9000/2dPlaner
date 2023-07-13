@@ -7,54 +7,90 @@ Source: https://sketchfab.com/3d-models/simple-dining-table-a6deba91a7f943508236
 Title: Simple dining table
 */
 
-import * as THREE from 'three'
-import React from 'react'
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three-stdlib'
+import * as THREE from "three";
+import React, { useEffect, useLayoutEffect } from "react";
+import { useGLTF } from "@react-three/drei";
+import { GLTF } from "three-stdlib";
 import { useBox } from "@react-three/cannon";
 import { useDragPhysicsObject } from "../../planner/shared/hooks/useDragPhysicsObject";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { selectFurnitureById } from "../../planner/Furniture/slice/selectors";
+import { ThreeEvent } from "@react-three/fiber";
+import { constructionsActions } from "../../planner/Constructions/slice";
+import { furnitureActions } from "../../planner/Furniture/slice";
+import { is } from "@react-three/fiber/dist/declarations/src/core/utils";
 
 type GLTFResult = GLTF & {
   nodes: {
-    Object_6: THREE.Mesh
-    Object_9: THREE.Mesh
     Object_12: THREE.Mesh
-    Object_15: THREE.Mesh
-    Object_18: THREE.Mesh
-    Object_21: THREE.Mesh
-    Object_24: THREE.Mesh
-    Object_27: THREE.Mesh
   }
   materials: {
-    qita: THREE.MeshStandardMaterial
-    lvzhi: THREE.MeshStandardMaterial
     zhuoyi: THREE.MeshStandardMaterial
-    material: THREE.MeshStandardMaterial
-    boli: THREE.MeshStandardMaterial
-    niunai: THREE.MeshStandardMaterial
   }
 }
 
-export function TableAndChairs(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('tableAndChairs/scene.gltf') as GLTFResult
+export function TableAndChairs({ id }: { id: string }) {
+  const furniture = useAppSelector(selectFurnitureById(id));
+  const position = furniture ? furniture.position : [0, 0, 0] as [x: number, y: number, z: number];
+  const rotation = furniture ? furniture.rotation : [0, 0, 0] as [x: number, y: number, z: number];
+  const isSelected = furniture ? furniture.isSelected :false;
+
+
+  const { nodes, materials } = useGLTF("tableAndChairs/scene.gltf") as GLTFResult;
+
+  const dispatch = useAppDispatch();
+  const onClick = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation();
+    const id = e.eventObject.name;
+    if (!id) return;
+    dispatch(furnitureActions.setSelectedFurnitureId(id));
+  };
+
+  const onWheel = (e: ThreeEvent<WheelEvent>) => {
+    if (e.deltaY > 0) {
+      dispatch(furnitureActions.rotateFurniture({ id: e.eventObject.name, rotation: [0,Math.PI / 8, 0] }));
+
+    } else {
+      dispatch(furnitureActions.rotateFurniture({ id: e.eventObject.name, rotation: [0,-Math.PI / 8, 0] }));
+
+    }
+  };
+
   const [ref, api] = useBox(() => ({
     mass: 0,
     type: "Static",
-    rotation: [Math.PI / 2, 0, 0],
+    rotation,
+    position
 
   }));
+
+  useEffect(() => {
+    if (!furniture) return;
+    const [x, y, z] = rotation;
+    api.rotation.set(x, y, z);
+  }, [furniture]);
+
   const bind = useDragPhysicsObject({
     api,
-    z: 0.5
+    z: 1,
+    onFinishDrag: ({ id, position }) => {
+      dispatch(furnitureActions.setFurniturePosition({ id, position }));
+    }
   });
-  const material=materials.zhuoyi
-  // material.color=new THREE.Color("blue")
+
+
+
+
 
   return (
-      <group  position={[0,0,0]}  scale={2} ref={ref as any} {...props} dispose={null} {...bind() as any}>
-        <mesh   geometry={nodes.Object_12.geometry} material={material} />
-      </group>
-  )
+    <group name={id} scale={2} ref={ref as any}  onClick={onClick} onWheel={onWheel} dispose={null} {...bind() as any}>
+      <mesh  geometry={nodes.Object_12.geometry} material={materials.zhuoyi}/>
+      {isSelected?<mesh position={[0, -0.4, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry/>
+        <meshStandardMaterial color={"blue"}/>
+      </mesh>:null}
+    </group>
+  );
 }
 
-useGLTF.preload('/scene.gltf')
+useGLTF.preload("/scene.gltf");

@@ -1,15 +1,15 @@
 import React, { memo, useMemo } from "react";
 import { useAppSelector } from "../../store/hooks";
-import { selectWallsIdList } from "../../store/slices/construction/selectors";
+import { selectWallsIdList } from "./slice/selectors";
 import { Wall } from "./Wall";
-import { useChangeSelectConstructionArgsControl } from "./hooks/useChangeSelectConstructionArgsControl";
+import { useConstructionControl } from "./hooks/useConstructionControl";
 
 
 
 
 export const Constructions: React.FC = memo(() => {
     const wallsIdList = useAppSelector(selectWallsIdList);
-    useChangeSelectConstructionArgsControl();
+    useConstructionControl();
 
     const mappedWalls =
       useMemo(() => {

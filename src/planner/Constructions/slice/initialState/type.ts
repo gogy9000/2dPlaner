@@ -1,6 +1,7 @@
 
 
 export type InitialStateType={
+  constructionMode:boolean
   selectedConstructionId:string|null
   wallsIdList:string[]
   walls:Record<string, WallType>

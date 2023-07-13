@@ -1,10 +1,10 @@
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { selectConstruction } from "../../../store/slices/construction/selectors";
+import { selectConstruction } from "../slice/selectors";
 import { button, useControls } from "leva";
 import { useEffect } from "react";
-import { constructionsActions, startBuild } from "../../../store/slices/construction";
+import { constructionsActions } from "../slice";
 
-export const useChangeSelectConstructionArgsControl = () => {
+export const useConstructionControl = () => {
   const dispatch = useAppDispatch();
   const selectedConstruction = useAppSelector(selectConstruction);
   const args = selectedConstruction?.args || [0, 0, 0];
@@ -15,29 +15,22 @@ export const useChangeSelectConstructionArgsControl = () => {
     z: { value: 0, min: 1, max: 10, step: 1 },
 
   }));
-  useControls('actions',()=>({
-    // ["Режим возведения"]: button(() => {
-    //   dispatch(constructionsActions.removeSelectedWall());
-    // },{}),
-    ["Создать стену"]:button(() => {
-    dispatch(startBuild({position:[0,0,0]}));
-  }),
+  useControls("actions", () => ({
     ["Удалить стену"]: button(() => {
       dispatch(constructionsActions.removeSelectedWall());
     }),
     ["Сохранить изменения"]: button(() => {
 
     }),
-  }))
-
-
+  }), );
 
   useEffect(() => {
-    if (!selectedConstruction)return
+    if (!selectedConstruction) return;
     set({ x: args[0], y: args[1], z: args[2] });
   }, [selectedConstruction]);
 
   useEffect(() => {
+    if (!selectedConstruction) return;
     dispatch(constructionsActions.setWallArgs({ args: [x, y, z] }));
   }, [x, y, z]);
 };

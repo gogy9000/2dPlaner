@@ -1,9 +1,9 @@
 import React, { memo } from "react";
 import { Block } from "../../meshes/Block";
 import { useSelector } from "react-redux";
-import { selectWall } from "../../../store/slices/construction/selectors";
+import { selectWall } from "../slice/selectors";
 import { ThreeEvent } from "@react-three/fiber";
-import { constructionsActions } from "../../../store/slices/construction";
+import { constructionsActions } from "../slice";
 import { useAppDispatch } from "../../../store/hooks";
 import  * as THREE from 'three'
 import { onFinishDragArgsType } from "../../shared/hooks/useDragPhysicsObject";
@@ -44,7 +44,7 @@ export const Wall: React.FC<IWallProps> = memo(({ id }) => {
   };
 
 
-  const color=new THREE.Color(isSelected?"green":"gray")
+  const color=new THREE.Color(isSelected?"blue":"gray")
   return (
     <Block
       onFinishDrag={onFinishDrag}

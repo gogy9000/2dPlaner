@@ -3,7 +3,7 @@ import { initialState } from "./initialState";
 import { WallType } from "./initialState/type";
 import { v4 } from "uuid";
 
-export const startBuild = createAsyncThunk("CONSTRUCTION_SLICE/START_BUILD", ({ position }: Pick<WallType, "position">, { dispatch }) => {
+export const addWall = createAsyncThunk("CONSTRUCTION_SLICE/START_BUILD", async ({ position }: Pick<WallType, "position">, { dispatch }) => {
   const id = v4();
   dispatch(constructionsActions.addWall({ position, id }));
   dispatch(constructionsActions.setSelectedConstructionsId(id));
@@ -13,6 +13,9 @@ const constructionSlice = createSlice({
   name: "CONSTRUCTION_SLICE",
   initialState,
   reducers: {
+    toggleConstructionMode:(state, action: PayloadAction<boolean>)=>{
+      state.constructionMode=action.payload
+    },
     addWall: (state, action: PayloadAction<Pick<WallType, "position" | "id">>) => {
       const id = action.payload.id;
       state.wallsIdList.push(id);

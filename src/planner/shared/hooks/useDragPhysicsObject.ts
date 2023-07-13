@@ -1,11 +1,7 @@
-import { useDrag } from "@use-gesture/react";
-import { useThree } from "@react-three/fiber";
+
 import { PublicApi } from "@react-three/cannon";
 import { useCustomDrag } from "./useCustomDrag";
-import { useSelector } from "react-redux";
-import { selectConstruction } from "../../../store/slices/construction/selectors";
-import { useAppDispatch } from "../../../store/hooks";
-import { constructionsActions } from "../../../store/slices/construction";
+
 
 export type onFinishDragArgsType = {
   id: string, position: [x: number, y: number, z: number]
@@ -18,8 +14,6 @@ export type UseDragPhysicsObjectPropsType = {
 }
 
 export const useDragPhysicsObject = ({ api, z, onFinishDrag }: UseDragPhysicsObjectPropsType) => {
-  const construction=useSelector(selectConstruction)
-  const dispatch=useAppDispatch()
 
   return  useCustomDrag(({ xy, down, event }) => {
     const x=xy[0]
