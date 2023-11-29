@@ -56,7 +56,7 @@ export const useDragPhysicsObject = ({ api, z, onFinishDrag,config }: UseDragPhy
         z
       ]
     });
-  },config);
+  }, config );
 
 
 };

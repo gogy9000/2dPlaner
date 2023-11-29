@@ -40,19 +40,23 @@ export function TableAndChairs({ id }: { id: string }) {
 
   const dispatch = useAppDispatch();
   const onClick = (e: ThreeEvent<PointerEvent>) => {
-    e.stopPropagation();
-    const id = e.eventObject.name;
-    if (!id) return;
-    dispatch(furnitureActions.setSelectedFurnitureId(id));
+    if(mode==='furniture'){
+      e.stopPropagation();
+      const id = e.eventObject.name;
+      if (!id) return;
+      dispatch(furnitureActions.setSelectedFurnitureId(id));
+    }
+
   };
 
   const onWheel = (e: ThreeEvent<WheelEvent>) => {
-    if (e.deltaY > 0) {
-      dispatch(furnitureActions.rotateFurniture({ id: e.eventObject.name, rotation: [0,Math.PI / 8, 0] }));
+    if(mode==='furniture'){
+      if (e.deltaY > 0) {
+        dispatch(furnitureActions.rotateFurniture({ id: e.eventObject.name, rotation: [0,Math.PI / 8, 0] }));
 
-    } else {
-      dispatch(furnitureActions.rotateFurniture({ id: e.eventObject.name, rotation: [0,-Math.PI / 8, 0] }));
-
+      } else {
+        dispatch(furnitureActions.rotateFurniture({ id: e.eventObject.name, rotation: [0,-Math.PI / 8, 0] }));
+      }
     }
   };
 
@@ -74,8 +78,10 @@ export function TableAndChairs({ id }: { id: string }) {
     api,
     z: 1,
     onFinishDrag: ({ id, position }) => {
+      console.log("onFinishDrag");
       dispatch(furnitureActions.setFurniturePosition({ id, position }));
     },
+    config:{enabled:mode==='furniture',filterTaps:true}
   });
 
 

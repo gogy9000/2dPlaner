@@ -16,7 +16,7 @@ export interface IBlockProps {
 }
 
 export const Block: React.FC<IBlockProps> = memo(({ onFinishDrag, meshProps, geometryProps, materialProps }) => {
-  const mode=useAppSelector(selectMode)
+
   const [ref, api] = useBox(() => ({
     mass:1,
     type:"Kinematic",
@@ -36,6 +36,7 @@ export const Block: React.FC<IBlockProps> = memo(({ onFinishDrag, meshProps, geo
     api,
     onFinishDrag,
     z,
+    config:{from:()=>[ref.current?.position.x as number,ref.current?.position.y as number]}
   }
   )
 

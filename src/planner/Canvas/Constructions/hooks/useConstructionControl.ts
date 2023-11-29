@@ -19,9 +19,6 @@ export const useConstructionControl = () => {
     ["Удалить стену"]: button(() => {
       dispatch(constructionsActions.removeSelectedWall());
     }),
-    ["Сохранить изменения"]: button(() => {
-
-    }),
   }), );
 
   useEffect(() => {

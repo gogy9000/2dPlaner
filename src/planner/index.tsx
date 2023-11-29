@@ -7,7 +7,7 @@ export const Planner: React.FC= memo(() => {
 
   return (
     <div className={styles.container}>
-      <InfoBlock/>
+      {/*<InfoBlock/>*/}
       <CanvasBlock/>
     </div>
   );
