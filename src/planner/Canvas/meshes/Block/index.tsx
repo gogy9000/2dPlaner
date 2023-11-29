@@ -13,9 +13,10 @@ export interface IBlockProps {
   materialProps?: Partial<MeshStandardMaterial>;
   meshProps?: Partial<MeshProps>;
   onFinishDrag?: (args: onFinishDragArgsType) => void;
+  enable?:boolean
 }
 
-export const Block: React.FC<IBlockProps> = memo(({ onFinishDrag, meshProps, geometryProps, materialProps }) => {
+export const Block: React.FC<IBlockProps> = memo(({ onFinishDrag, meshProps, geometryProps, materialProps,enable=false }) => {
 
   const [ref, api] = useBox(() => ({
     mass:1,
@@ -36,7 +37,10 @@ export const Block: React.FC<IBlockProps> = memo(({ onFinishDrag, meshProps, geo
     api,
     onFinishDrag,
     z,
-    config:{from:()=>[ref.current?.position.x as number,ref.current?.position.y as number]}
+    config:{
+      from:()=>[ref.current?.position.x as number,ref.current?.position.y as number],
+      enabled:enable
+    }
   }
   )
 

@@ -2,7 +2,6 @@ import React, { memo, useMemo } from "react";
 import { useAppSelector } from "../../../store/hooks";
 import { selectWallsIdList } from "./slice/selectors";
 import { Wall } from "./Wall";
-import { useConstructionControl } from "./hooks/useConstructionControl";
 import { Controls } from "./Controls";
 import { selectMode } from "../shared/sharedSlice/selectors";
 
