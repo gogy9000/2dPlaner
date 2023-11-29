@@ -1,7 +1,7 @@
 import React, { memo, useMemo,Suspense } from "react";
 import { useAppSelector } from "../../../store/hooks";
 import { selectFurnitureIdList } from "./slice/selectors";
-import { TableAndChairs } from "../../../models/TableAndChairs";
+import { TableAndChairs } from "./TableAndChairs";
 
 
 

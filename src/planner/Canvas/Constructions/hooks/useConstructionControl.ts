@@ -15,11 +15,16 @@ export const useConstructionControl = () => {
     z: { value: 0, min: 1, max: 10, step: 1 },
 
   }));
-  useControls("actions", () => ({
-    ["Удалить стену"]: button(() => {
-      dispatch(constructionsActions.removeSelectedWall());
-    }),
-  }), );
+  useControls("Действия", () => {
+      return(
+        {
+          [selectedConstruction?"Удалить стену":'']: button(() => {
+            dispatch(constructionsActions.removeSelectedWall());
+          }),
+        }
+      );
+
+  },[selectedConstruction] );
 
   useEffect(() => {
     if (!selectedConstruction) return;

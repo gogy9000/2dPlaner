@@ -12,12 +12,12 @@ import React, { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useBox } from "@react-three/cannon";
-import { useDragPhysicsObject } from "../../planner/Canvas/shared/hooks/useDragPhysicsObject";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectFurnitureById } from "../../planner/Canvas/Furniture/slice/selectors";
+import { useDragPhysicsObject } from "../../shared/hooks/useDragPhysicsObject";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { selectFurnitureById } from "../slice/selectors";
 import { ThreeEvent } from "@react-three/fiber";
-import { furnitureActions } from "../../planner/Canvas/Furniture/slice";
-import { selectMode } from "../../planner/Canvas/shared/sharedSlice/selectors";
+import { furnitureActions } from "../slice";
+import { selectMode } from "../../shared/sharedSlice/selectors";
 
 type GLTFResult = GLTF & {
   nodes: {

@@ -17,7 +17,7 @@ export interface IBlockProps {
 }
 
 export const Block: React.FC<IBlockProps> = memo(({ onFinishDrag, meshProps, geometryProps, materialProps,enable=false }) => {
-
+    const {onClick:onHandleClick,...restMeshProps}=meshProps||{}
   const [ref, api] = useBox(() => ({
     mass:1,
     type:"Kinematic",
@@ -40,16 +40,22 @@ export const Block: React.FC<IBlockProps> = memo(({ onFinishDrag, meshProps, geo
     config:{
       from:()=>[ref.current?.position.x as number,ref.current?.position.y as number],
       enabled:enable
+
     }
   }
   )
+  const {onClick, ...rest}=bind()
 
   return (
 
     <mesh
       ref={ref}
-      {...meshProps}
-      {...bind() as any}
+      onClick={(e)=>{
+        onHandleClick&&onHandleClick(e)
+        onClick&& onClick(e as any)
+      }}
+      {...restMeshProps}
+      {...rest as any}
     >
       <boxGeometry  {...geometryProps}/>
       <meshStandardMaterial  attach={"material"} color={"gray"} {...materialProps}/>
