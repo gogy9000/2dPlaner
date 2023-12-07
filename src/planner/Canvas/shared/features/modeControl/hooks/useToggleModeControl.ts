@@ -1,7 +1,6 @@
-import { button, buttonGroup, useControls } from "leva";
+import { buttonGroup, useControls } from "leva";
 import { selectMode } from "../../../sharedSlice/selectors";
 import { useAppDispatch, useAppSelector } from "../../../../../../store/hooks";
-import { sharedActions } from "../../../sharedSlice";
 import { toggleMode } from "../actions";
 
 export const useToggleModeControl = () => {
@@ -9,7 +8,7 @@ export const useToggleModeControl = () => {
   const dispatch = useAppDispatch();
 
   const [,set]=useControls(()=>({
-    ["Режим"]:mode==="construction"?"Возведение":"Расстановка",
+    ["Режим"]:mode==="construction"?"Стены":"Мебель",
     " ":buttonGroup({
       ['Стены']: () => {
         set({ ["Режим"]:"Стены"});
@@ -20,5 +19,6 @@ export const useToggleModeControl = () => {
         dispatch(toggleMode('furniture'))
       },
     })
+
   }),[mode]);
 };

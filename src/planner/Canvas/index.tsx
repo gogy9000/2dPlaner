@@ -6,6 +6,7 @@ import { Constructions } from "./Constructions";
 import { Furniture } from "./Furniture";
 import { Floor } from "./Floor";
 import { Canvas } from "@react-three/fiber";
+import { SaveControl } from "./shared/features/SaveConfig/control";
 
 
 
@@ -22,6 +23,7 @@ export const CanvasBlock: React.FC = memo(() => {
       <Physics gravity={[0, 0, -40]}>
         <color attach={"background"} args={["gray"]}/>
         <ModeControl/>
+        <SaveControl/>
         <Constructions/>
         <Furniture/>
         <Floor/>

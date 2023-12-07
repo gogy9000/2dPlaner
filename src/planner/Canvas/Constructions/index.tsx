@@ -1,6 +1,6 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo,Suspense } from "react";
 import { useAppSelector } from "../../../store/hooks";
-import { selectWallsIdList } from "./slice/selectors";
+import { selectConstruction, selectWallsIdList } from "./slice/selectors";
 import { Wall } from "./Wall";
 import { Controls } from "./Controls";
 import { selectMode } from "../shared/sharedSlice/selectors";
@@ -11,6 +11,7 @@ import { selectMode } from "../shared/sharedSlice/selectors";
 export const Constructions: React.FC = memo(() => {
     const wallsIdList = useAppSelector(selectWallsIdList);
     const mode=useAppSelector(selectMode)
+  const selectedConstruction = useAppSelector(selectConstruction);
 
     const mappedWalls =
       useMemo(() => {
@@ -24,8 +25,10 @@ export const Constructions: React.FC = memo(() => {
 
     return (
       <>
+        <Suspense fallback={null}>
         {mappedWalls}
-        {mode==='construction'?<Controls/>:null}
+        </Suspense>
+        {mode==='construction'&&selectedConstruction?<Controls/>:null}
       </>
     );
   })
